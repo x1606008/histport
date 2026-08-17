@@ -1,0 +1,6 @@
+{
+  "name": "Tarixiy Ensiklopediya va Ilmiy Portal",
+  "description": "Tarix fani bo'yicha interaktiv ensiklopediya, GIS xaritasi, vaqt shkalasi, manbalar tahlili va ilmiy tadqiqot platformasi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
