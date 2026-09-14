@@ -73,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo & Portal Title with Immersive Diamond Crest */}
-          <Link to="/" className="flex items-center gap-3.5 group">
+          <Link to="/" className="flex min-w-0 shrink items-center gap-2.5 group">
             <div className="relative flex items-center justify-center">
               <div className="w-8 h-8 border-2 border-[#C6AC8F] rotate-45 flex items-center justify-center group-hover:border-[#EAE0D5] transition-colors shadow-[0_0_12px_rgba(198,172,143,0.3)] bg-[#141210]">
                 <span className="-rotate-45 font-heading font-black text-sm text-[#C6AC8F] group-hover:text-[#EAE0D5]">
@@ -81,18 +81,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
                 </span>
               </div>
             </div>
-            <div>
-              <span className="font-heading font-black text-base sm:text-lg text-[#EAE0D5] tracking-widest block leading-tight group-hover:text-[#C6AC8F] transition-colors">
+            <div className="min-w-0 max-w-[132px] sm:max-w-none">
+              <span className="font-heading font-black text-xs sm:text-base lg:text-lg text-[#EAE0D5] tracking-[0.08em] sm:tracking-[0.14em] whitespace-nowrap block leading-tight group-hover:text-[#C6AC8F] transition-colors">
                 TURON TARIX
               </span>
-              <span className="text-[9px] uppercase tracking-[0.2em] text-[#C6AC8F]/80 font-mono font-medium block">
+              <span className="hidden lg:block text-[9px] uppercase tracking-[0.14em] text-[#C6AC8F]/80 font-mono font-medium truncate max-w-[210px]">
                 Ilmiy Portal & Ensiklopediya
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden xl:flex items-center gap-1">
+          <nav className="hidden xl:flex min-w-0 items-center gap-0.5">
             {navLinks.map(link => {
               const Icon = link.icon;
               const isActive = location.pathname === link.path;
@@ -100,7 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all ${
+                  className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-[10px] font-semibold uppercase tracking-[0.08em] whitespace-nowrap transition-all ${
                     isActive
                       ? 'bg-[#C6AC8F] text-[#0A0908] font-bold shadow-md shadow-[#C6AC8F]/20'
                       : link.highlight

@@ -96,15 +96,28 @@ export const HistoricalDataProvider: React.FC<{ children: React.ReactNode }> = (
     return saved ? JSON.parse(saved) : INITIAL_PROPOSALS;
   });
 
-  // Save to LocalStorage
+  // Persist the editorial workspace so approved content and submitted proposals survive refreshes.
   useEffect(() => {
     localStorage.setItem('turon_persons', JSON.stringify(persons));
   }, [persons]);
-
+  useEffect(() => {
+    localStorage.setItem('turon_states', JSON.stringify(states));
+  }, [states]);
+  useEffect(() => {
+    localStorage.setItem('turon_cities', JSON.stringify(cities));
+  }, [cities]);
+  useEffect(() => {
+    localStorage.setItem('turon_conflicts', JSON.stringify(conflicts));
+  }, [conflicts]);
+  useEffect(() => {
+    localStorage.setItem('turon_treaties', JSON.stringify(treaties));
+  }, [treaties]);
   useEffect(() => {
     localStorage.setItem('turon_monuments', JSON.stringify(monuments));
   }, [monuments]);
-
+  useEffect(() => {
+    localStorage.setItem('turon_timeline', JSON.stringify(timelineEvents));
+  }, [timelineEvents]);
   useEffect(() => {
     localStorage.setItem('turon_proposals', JSON.stringify(proposals));
   }, [proposals]);
@@ -120,14 +133,26 @@ export const HistoricalDataProvider: React.FC<{ children: React.ReactNode }> = (
   };
 
   const approveProposal = (proposalId: string) => {
-    setProposals(prev =>
-      prev.map(p => {
-        if (p.id === proposalId) {
-          return { ...p, status: 'approved' as const };
-        }
-        return p;
-      })
-    );
+    const proposal = proposals.find(item => item.id === proposalId);
+    if (!proposal) return;
+
+    const content = proposal.proposedContent.trim();
+    if (proposal.targetType === 'person') {
+      setPersons(prev => prev.map(item => item.id === proposal.targetId ? { ...item, fullBio: content } : item));
+    } else if (proposal.targetType === 'state') {
+      const [riseAndGrowth = '', goldenAge = '', declineAndFall = ''] = content.split(/\n\s*\n/);
+      setStates(prev => prev.map(item => item.id === proposal.targetId ? { ...item, riseAndGrowth, goldenAge, declineAndFall } : item));
+    } else if (proposal.targetType === 'city') {
+      setCities(prev => prev.map(item => item.id === proposal.targetId ? { ...item, fullHistory: content } : item));
+    } else if (proposal.targetType === 'conflict') {
+      setConflicts(prev => prev.map(item => item.id === proposal.targetId ? { ...item, outcome: content } : item));
+    } else if (proposal.targetType === 'treaty') {
+      setTreaties(prev => prev.map(item => item.id === proposal.targetId ? { ...item, context: content } : item));
+    } else if (proposal.targetType === 'monument') {
+      setMonuments(prev => prev.map(item => item.id === proposal.targetId ? { ...item, architecturalDetails: content } : item));
+    }
+
+    setProposals(prev => prev.map(item => item.id === proposalId ? { ...item, status: 'approved' as const } : item));
   };
 
   const rejectProposal = (proposalId: string, reason?: string) => {
